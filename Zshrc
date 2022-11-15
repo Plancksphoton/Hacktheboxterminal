@@ -1,0 +1,15 @@
+# START CUSTOM 
+function get_ip(){
+   # It can be thm or htb IP
+   tunnel_ip=`ifconfig tun0 2>/dev/null | grep netmask | awk '{print $2}'` 
+   # Use eth0 as default IP,
+   default_ip=`ifconfig eth0 2>/dev/null | grep netmask | awk '{print $2}'`
+   if [[ $tunnel_ip == *"10."* ]]; then
+      echo $tunnel_ip
+   else
+      echo $default_ip
+   fi
+}
+# END CUSTOM
+
+PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n$prompt_symbol%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/.../%4~.%5~)%b%F{%(#.blue.green)}]-%B%F{152}[`get_ip`]%b%f%F{%(#.blue.green)}\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
